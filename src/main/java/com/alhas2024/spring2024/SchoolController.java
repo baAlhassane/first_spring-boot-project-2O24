@@ -23,5 +23,21 @@ public class SchoolController {
 
         return schoolRepository.findAll();
     }
+
+    /** School DTO**/
+    @PostMapping("/school")
+    public SchoolDto schoolPostDto(
+            @RequestBody SchoolDto dto
+    ){
+       var school=toSchool(dto);
+       schoolRepository.save(school);
+
+        return  dto;
+    }
+
+    private School toSchool(SchoolDto dto) {
+        return new School(
+                dto.name() );
+    }
 }
 
