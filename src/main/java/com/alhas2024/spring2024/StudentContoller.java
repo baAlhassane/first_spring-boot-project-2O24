@@ -8,9 +8,11 @@ import java.util.Optional;
 @RestController
 public class StudentContoller {
     private final StudentRepository studentRepository;
+    private final StudentMapper studentMapper;
 
-    public StudentContoller(StudentRepository studentRepository) {
+    public StudentContoller(StudentRepository studentRepository, StudentMapper studentMapper) {
         this.studentRepository = studentRepository;
+        this.studentMapper = studentMapper;
     }
     @PostMapping("/student")
     Student postStudent(
@@ -89,6 +91,19 @@ public class StudentContoller {
                 student.getEmail());
      }
 
+
+
+
+     /*
+     *  Student mapper service
+     */
+     @PostMapping("/student-dto-res-mapper")
+     StudentResponseDto postStudentDtoResponseMapper(
+             @RequestBody StudentDto dto){
+         var student =studentMapper.toStudent(dto);
+         var saveStudent= studentRepository.save(student);
+         return studentMapper.toStudentResponseDto(saveStudent);
+     }
 
 
 
